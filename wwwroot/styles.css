@@ -1,0 +1,189 @@
+body {
+    background-color: #f8f9fa;
+}
+.container {
+    max-width: 600px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+/* Custom styles for the book details layout */
+#bookDetails .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#bookDetails .col-md-4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#bookDetails .col-md-8 {
+    padding-left: 20px;
+}
+
+#bookDetails img {
+    border-radius: 8px;
+}
+
+#bookDetails .bi {
+    margin-left: 5px;
+}
+
+    /* General Styles */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #343a40;
+    }
+
+    /* Table Styles */
+    table {
+        width: 100%;
+        margin-bottom: 30px;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+    }
+
+    td {
+        background-color: #ffffff;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Collapse Row Styles */
+    .collapse {
+        background-color: #f8f9fa;
+    }
+
+    .collapse .row {
+        margin-top: 10px;
+    }
+
+    .collapse .col-md-4 {
+        padding: 20px;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+    }
+
+    .collapse .col-md-8 {
+        padding: 20px;
+    }
+
+    /* Card-like Book Detail Layout */
+    .book-image {
+        max-width: 100%;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .book-info p {
+        margin: 5px 0;
+    }
+
+    .book-info h5 {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    /* Button Styles */
+    .btn-generate {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 15px 0;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .btn-generate:hover {
+        background-color: #218838;
+    }
+
+    /* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+    .page-item {
+        margin: 0 5px;
+    }
+
+    .page-link {
+        padding: 8px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .page-link:hover {
+        background-color: #0056b3;
+    }
+
+    .page-item.active .page-link {
+        background-color: #28a745;
+        color: white;
+    }
+
+    /* Form Styles */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    /* Tooltip Style */
+    .tooltip-inner {
+        background-color: #007bff;
+        color: white;
+    }
+
+
