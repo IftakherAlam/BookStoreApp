@@ -18,10 +18,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-    endpoints.MapFallbackToFile("index.html");
-});
+app.MapControllers(); // ✅ Replaces UseEndpoints
+app.MapFallbackToFile("index.html"); // ✅ Also moved outside UseEndpoints
 
 app.Run();
