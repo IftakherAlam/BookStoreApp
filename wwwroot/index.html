@@ -51,7 +51,7 @@
             </div>
             
         </form>
-        <div class="d-flex justify-content-between align-items-center mt-4">
+        <div class="d-flex justify-content-between align-items-center mt-3 mb-5">
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-outline-primary active" onclick="toggleView('table')">
                     <i class="bi bi-table"></i> Table View
@@ -83,11 +83,9 @@
             </table>
         </div>
 
-        <!-- Gallery View -->
-       <!-- Gallery View -->
-<div id="galleryView" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" style="display: none;">
-    <!-- Gallery cards will be inserted here dynamically -->
-</div>
+        <div id="galleryView" class="row g-4" style="display: none;">
+            <!-- Cards will be dynamically inserted here -->
+        </div>
 
         <!-- Pagination Controls -->
         <div class="d-flex justify-content-center mt-4">
@@ -207,18 +205,41 @@ function displayBooks() {
                              </div>
                          </td>
                       </tr>`;
-
         // Gallery Card
-        galleryHtml += `<div class="col-md-3">
-                            <div class="card">
-                                <img src="${book.coverImageUrl}" class="card-img-top" alt="Cover Image">
-                                <div class="card-body">
-                                    <h5 class="card-title">${book.title}</h5>
-                                    <p class="card-text">${book.author || 'No Author'}</p>
+        galleryHtml += `
+                    <div class="col-12">
+                        <div class="card h-100">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="${book.coverImageUrl}" class="img-fluid rounded-start" alt="Cover Image" style="height: 300px; object-fit: cover; width: 100%;">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${book.title}</h5>
+                                        <p class="card-text">
+                                            <strong>Author:</strong> ${book.author || 'No Author'}<br>
+                                            <strong>Publisher:</strong> ${book.publisher || 'N/A'}<br>
+                                            <strong>ISBN:</strong> ${book.isbn || 'N/A'}<br>
+                                            <strong>Year:</strong> ${book.year || 'N/A'}
+                                        </p>
+                                        <div class="d-flex gap-3">
+                                            <span class="text-muted">
+                                                <i class="bi bi-heart-fill text-danger"></i> ${book.likes !== undefined ? book.likes.toFixed(1) : 'N/A'} Likes
+                                            </span>
+                                            <span class="text-muted">
+                                                <i class="bi bi-star-fill text-warning"></i> ${book.reviews !== undefined ? book.reviews.toFixed(1) : 'N/A'} Reviews
+                                            </span>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            <small class="text-muted">${book.comments || 'No comments available'}</small>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>`;
-    });
+                        </div>
+                    </div>`;
+            });
+
 
     // Insert the dynamically generated rows into the table body
     document.getElementById("bookTableBody").innerHTML = tableHtml;
@@ -362,7 +383,76 @@ window.onload = () => {
         .collapse {
             padding-top: 20px;
         }
-        
+
+        .card {
+            transition: transform 0.2s;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .card-title {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Ensure consistent card sizing */
+        #galleryView .col {
+            display: flex;
+        }
+
+        #galleryView .card {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        #galleryView .card {
+            transition: transform 0.2s;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        #galleryView .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        #galleryView .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        #galleryView .card-text {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        #galleryView .col-12 {
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            #galleryView .col-md-4 {
+                height: 200px;
+            }
+            
+            #galleryView .col-md-4 img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
     </style>
 </body>
 </html>
