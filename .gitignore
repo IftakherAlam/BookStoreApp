@@ -1,0 +1,66 @@
+# Build Folders
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+logs/
+
+# ASP.NET Core configuration
+appsettings.Development.json
+
+# Dependencies
+packages/
+*.nupkg
+*.snupkg
+
+# Visual Studio specific
+.vs/
+.vscode/
+
+# Rider specific
+.idea/
+
+# Backup files
+*.bak
+*.swp
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Resharper files
+_ReSharper*/
+*.DotSettings.user
+
+# JetBrains Rider
+.idea/
+
+# Entity Framework Migrations (optional, if you want to regenerate migrations)
+Migrations/
+
+# Generated files
+*.g.*
+*.generated.cs
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+*.pid
+*.seed
+*.coverage
+*.coveragexml
+*.orig
+
+# NuGet packages
+*.nupkg
+*.snupkg
+project.lock.json
