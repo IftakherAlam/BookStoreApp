@@ -22,12 +22,11 @@ namespace BookStoreApp.Controllers
 
         private class BookDataset
         {
-        public required string[] Genres { get; init; }
-        public required string[] TitlePrefixes { get; init; }
-        public required string[] TitleWords { get; init; }
-        public required string[] Comments { get; init; }
+            public required string[] Genres { get; init; }
+            public required string[] TitlePrefixes { get; init; }
+            public required string[] TitleWords { get; init; }
+            public required string[] Comments { get; init; }
         }
-
         private Dictionary<string, BookDataset> InitializeBookDatasets()
         {
             return new Dictionary<string, BookDataset>
@@ -100,60 +99,64 @@ namespace BookStoreApp.Controllers
             };
         }
 
-        [HttpGet("generate")]
+       [HttpGet("generate")]
 public IActionResult GetBooks([FromQuery] int seed, [FromQuery] string language, [FromQuery] double avgLikes, [FromQuery] double avgReviews, [FromQuery] int start = 0)
+{
+    var validLanguages = new HashSet<string> { "en", "de", "fr", "es", "it" };
+    if (!validLanguages.Contains(language))
+    {
+        language = "en";
+    }
 
+    // Create a deterministic random generator with the seed
+    var rand = new Random(seed);
+
+    // Skip the first 'start' numbers to get to the right position in the sequence
+    for (int i = 0; i < start; i++)
+    {
+        rand.Next();
+        rand.NextDouble();  // Skip for both Next() and NextDouble() to maintain consistency
+    }
+
+    var dataset = _bookDatasets[language];
+    var books = new List<Book>();
+
+    var faker = new Faker(language)
+    {
+        Random = new Randomizer(seed) // Use the same Random object across Faker's randomizer
+    };
+
+    for (int i = 0; i < 10; i++)
+    {
+        var likes = faker.Random.Double(Math.Max(avgLikes - 5, 0), avgLikes + 5);
+        var reviews = faker.Random.Double(Math.Max(avgReviews - 3, 0), avgReviews + 3);
+        var publisher = faker.Company.CompanyName();
+        var coverImageUrl = faker.Image.PicsumUrl(200, 300);
+        var year = faker.Date.Past(100).Year;
+
+        // Generate title using language-specific patterns
+        var title = GenerateBookTitle(faker, dataset);
+        var comment = faker.Random.ArrayElement(dataset.Comments);
+        var genre = faker.Random.ArrayElement(dataset.Genres);
+
+        books.Add(new Book
         {
-            var validLanguages = new HashSet<string> { "en", "de", "fr", "es", "it" };
-            if (!validLanguages.Contains(language))
-            {
-                language = "en";
-            }
-                   // Create a deterministic random generator with the seed
-            var rand = new Random(seed);
-            
-            // Skip the first 'start' numbers to get to the right position in the sequence
-            for (int i = 0; i < start; i++)
-            {
-                rand.Next();
-                rand.NextDouble();  // Skip for both Next() and NextDouble() to maintain consistency
-            }
+            Index = i + 1,
+            ISBN = faker.Random.Replace("###-###-####"),
+            Title = title,
+            Author = faker.Name.FullName(),
+            Publisher = publisher,
+            Genre = genre,
+            Likes = likes,
+            Reviews = reviews,
+            CoverImageUrl = coverImageUrl,
+            Year = year,
+            Comments = comment
+        });
+    }
 
-            var faker = new Faker(language) { Random = new Randomizer(seed) };
-            var dataset = _bookDatasets[language];
-            var books = new List<Book>();
-
-            for (int i = 0; i < 10; i++)
-            {
-                var likes = faker.Random.Double(Math.Max(avgLikes - 5, 0), avgLikes + 5);
-                var reviews = faker.Random.Double(Math.Max(avgReviews - 3, 0), avgReviews + 3);
-                var publisher = faker.Company.CompanyName();
-                var coverImageUrl = faker.Image.PicsumUrl(200, 300);
-                var year = faker.Date.Past(100).Year;
-
-                // Generate title using language-specific patterns
-                var title = GenerateBookTitle(faker, dataset);
-                var comment = faker.Random.ArrayElement(dataset.Comments);
-                var genre = faker.Random.ArrayElement(dataset.Genres);
-
-                books.Add(new Book
-                {
-                    Index = i + 1,
-                    ISBN = faker.Random.Replace("###-###-####"),
-                    Title = title,
-                    Author = faker.Name.FullName(),
-                    Publisher = publisher,
-                    Genre = genre,
-                    Likes = likes,
-                    Reviews = reviews,
-                    CoverImageUrl = coverImageUrl,
-                    Year = year,
-                    Comments = comment
-                });
-            }
-
-            return Ok(books);
-        }
+    return Ok(books);
+}
 
         private string GenerateBookTitle(Faker faker, BookDataset dataset)
         {
