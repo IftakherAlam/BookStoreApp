@@ -12,7 +12,7 @@ namespace BookStoreApp.Models
     public required string CoverImageUrl { get; set; }
     public int Year { get; set; }  
     public required string Comments { get; set; }
-    public required string Genre { get; set; }
+
 }
 
 }
