@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Bogus;
 using System.Collections.Generic;
 using BookStoreApp.Models;
+using System.Collections;
 
 namespace BookStoreApp.Controllers
 {
@@ -100,12 +101,22 @@ namespace BookStoreApp.Controllers
         }
 
         [HttpGet("generate")]
-        public IActionResult GetBooks([FromQuery] int seed, [FromQuery] string language, [FromQuery] double avgLikes, [FromQuery] double avgReviews)
+public IActionResult GetBooks([FromQuery] int seed, [FromQuery] string language, [FromQuery] double avgLikes, [FromQuery] double avgReviews, [FromQuery] int start = 0)
+
         {
             var validLanguages = new HashSet<string> { "en", "de", "fr", "es", "it" };
             if (!validLanguages.Contains(language))
             {
                 language = "en";
+            }
+                   // Create a deterministic random generator with the seed
+            var rand = new Random(seed);
+            
+            // Skip the first 'start' numbers to get to the right position in the sequence
+            for (int i = 0; i < start; i++)
+            {
+                rand.Next();
+                rand.NextDouble();  // Skip for both Next() and NextDouble() to maintain consistency
             }
 
             var faker = new Faker(language) { Random = new Randomizer(seed) };

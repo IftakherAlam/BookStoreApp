@@ -87,17 +87,18 @@
             <!-- Cards will be dynamically inserted here -->
         </div>
 
-        <!-- Pagination Controls -->
-        <div class="d-flex justify-content-center mt-4">
-            <button type="button" id="prevPage" class="btn btn-outline-primary" onclick="changePage(-1)">Previous</button>
-            <button type="button" id="nextPage" class="btn btn-outline-primary ms-3" onclick="changePage(1)">Next</button>
-        </div>
     </div>
 
 
 
     <script>
-       let currentPage = 1; // Start at page 1
+        let allBooks = []; // Variable to keep track of all generated books
+        let isLoading = false; // To prevent multiple API calls while loading
+        let currentPage = 1; // Start at page 1
+        let currentSeed = 1234;
+        let batchSize = 20; // Initial load size
+        let additionalBatchSize = 10; // Size for subsequent loads
+
 document.getElementById("avgLikes").addEventListener("input", function() {
     document.getElementById("likesValue").innerText = this.value;
     generateBooks(currentPage); // Regenerate books on input change
@@ -122,8 +123,19 @@ function generateRandomSeed() {
     generateBooks(currentPage); // Regenerate books after random seed generation
 }
 
-let allBooks = []; // Variable to keep track of all generated books
-let isLoading = false; // To prevent multiple API calls while loading
+
+function handleScroll() {
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const bodyHeight = document.body.offsetHeight;
+    
+    // If we're near the bottom (100px threshold) and not currently loading
+    if (bodyHeight - scrollPosition < 100 && !isLoading) {
+        loadMoreBooks();
+    }
+}
+
+// Attach scroll listener
+window.addEventListener('scroll', handleScroll);
 
 async function generateBooks(page = 1) {
     if (isLoading) return; // Avoid multiple simultaneous API calls
@@ -251,6 +263,10 @@ function displayBooks() {
 function changePage(direction) {
     currentPage += direction;
     generateBooks(currentPage);
+}
+async function loadMoreBooks() {
+    currentSeed += batchSize; // Increment seed for next batch
+    await generateBooks(false);
 }
 
 // Function to toggle between table and gallery views
